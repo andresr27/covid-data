@@ -1,5 +1,11 @@
 # Covid Data Analysis
 
-## References
-
 ## Content
+
+### Motivation
+
+### Data visualizations
+
+### How to improve this data
+
+## References
