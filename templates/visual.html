@@ -1,0 +1,12 @@
+{% extends 'home.html' %}
+
+{% block container %}
+  <div class="top-pad">
+    {#<h4>{{ full_name(visual) }}</h4>#}
+    <h4>{{ visual|full_name }}</h4>
+    <h1>{{ visual['name'] }}
+      <small>{{ visual['category'] }}</small>
+    </h1>
+    <h3>{{ visual['value'] }}</h3>
+  </div>
+{% endblock %}

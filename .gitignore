@@ -1,2 +1,4 @@
 trash
+venv
+__pycache__
 .gitignore
