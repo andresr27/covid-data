@@ -27,24 +27,28 @@ VISUALS = {
 @app.route('/')
 @app.route('/home')
 def home():
-    return render_template('home.html', visuals=VISUALS)
+    return render_template('index.html', visuals=VISUALS)
 
-@app.route('/visual/<key>')
-def visual(key):
-    visual = VISUALS.get(key)
-    if not visual:
-        abort(404)
-    return render_template('visual.html', visual=visual)
+@app.route('/projects')
+def projects():
+    return render_template('projects.html', visuals=VISUALS)
 
-@app.context_processor
-def some_processor():
-    def full_name(visual):
-        return '{0} / {1}'.format(visual['category'], visual['name'])
-    return {'full_name': full_name}
-
-@app.template_filter('full_name')
-def full_name_filter(visual):
-    return '{0} / {1}'.format(visual['category'], visual['name'])
+# @app.route('/visual/<key>')
+# def visual(key):
+#     visual = VISUALS.get(key)
+#     if not visual:
+#         abort(404)
+#     return render_template('visual.html', visual=visual)
+#
+# @app.context_processor
+# def some_processor():
+#     def full_name(visual):
+#         return '{0} / {1}'.format(visual['category'], visual['name'])
+#     return {'full_name': full_name}
+#
+# @app.template_filter('full_name')
+# def full_name_filter(visual):
+#     return '{0} / {1}'.format(visual['category'], visual['name'])
 
 # @app.template_filter('format_currency')
 # def format_currency_filter(amount):
