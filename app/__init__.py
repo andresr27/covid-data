@@ -10,28 +10,15 @@ app = Flask(__name__)
 # Set jinja template global
 app.jinja_env.globals['momentjs'] = momentjs
 
-VISUALS = {
-    '1': {
-        'name': 'Name Visual 1',
-        'category': 'Category 1',
-        'value': 99,
-    },
-    '2': {
-        'name': 'Name Visual 2',
-        'category': 'Category 2',
-        'value': 649,
-    }
-}
-
 
 @app.route('/')
 @app.route('/home')
 def home():
-    return render_template('index.html', visuals=VISUALS)
+    return render_template('index.html')
 
-@app.route('/projects')
-def projects():
-    return render_template('projects.html', visuals=VISUALS)
+# @app.route('/projects')
+# def projects():
+#     return render_template('projects.html', visuals=VISUALS)
 
 # @app.route('/visual/<key>')
 # def visual(key):

@@ -30,6 +30,7 @@ def get_info(country):
             #print(country_list[j] + " " + str(coord_list[j]))
         else: print ("Country " + country + " not found")
         sleep(2)  # be nice to service
+
     except Exception as e:
         print("Error getting " + country + " data: " + str(e))
         if retries < 3 :
@@ -42,7 +43,6 @@ def get_info(country):
 
 
 dict = load_obj('country_coords')
-#print(dict)
 
 with open('data/full_data.csv') as csvData:
     file = csv.reader(csvData, delimiter=',')#,quoting= csv.QUOTE_ALL, quotechar = '"')
