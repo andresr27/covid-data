@@ -1,43 +1,43 @@
-#!/usr/bin/python3
-import ccy
-from flask import Flask, render_template, abort, request
-from momentjs import momentjs
+# third-party imports
+from flask import Flask
+from flask_bootstrap import Bootstrap
+from flask_login import LoginManager
+from flask_migrate import Migrate
+from flask_sqlalchemy import SQLAlchemy
+# local imports
+from config import app_config
+
+db = SQLAlchemy()
+login_manager = LoginManager()
 
 
-app = Flask(__name__)
+def create_app(config_name):
+    app = Flask(__name__, instance_relative_config=True)
+    app.config.from_object(app_config[config_name])
+    app.config.from_pyfile('config.py')
 
+    Bootstrap(app)
+    #with app.app_context():
+    db.init_app(app)
 
-# Set jinja template global
-app.jinja_env.globals['momentjs'] = momentjs
+    with app.test_request_context():
+        from app.models import User
+        db.create_all()
 
+    login_manager.init_app(app)
+    login_manager.login_message = "You must be logged in to access this page."
+    login_manager.login_view = "auth.login"
+    migrate = Migrate(app, db)
 
-@app.route('/')
-@app.route('/home')
-def home():
-    return render_template('index.html')
+    from app import models
 
-# @app.route('/projects')
-# def projects():
-#     return render_template('projects.html', visuals=VISUALS)
+    from .admin import admin as admin_blueprint
+    app.register_blueprint(admin_blueprint, url_prefix='/admin')
 
-# @app.route('/visual/<key>')
-# def visual(key):
-#     visual = VISUALS.get(key)
-#     if not visual:
-#         abort(404)
-#     return render_template('visual.html', visual=visual)
-#
-# @app.context_processor
-# def some_processor():
-#     def full_name(visual):
-#         return '{0} / {1}'.format(visual['category'], visual['name'])
-#     return {'full_name': full_name}
-#
-# @app.template_filter('full_name')
-# def full_name_filter(visual):
-#     return '{0} / {1}'.format(visual['category'], visual['name'])
+    from .auth import auth as auth_blueprint
+    app.register_blueprint(auth_blueprint)
 
-# @app.template_filter('format_currency')
-# def format_currency_filter(amount):
-#     currency_code = ccy.countryccy(request.accept_languages.best[-2:])
-#     return '{0} {1}'.format(currency_code, amount)
+    from .home import home as home_blueprint
+    app.register_blueprint(home_blueprint)
+
+    return app

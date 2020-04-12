@@ -1,1 +1,2 @@
-FLASK_APP=app.py
+FLASK_APP=runApp.py
+FLASK_CONFIG=development
